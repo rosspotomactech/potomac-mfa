@@ -1,0 +1,48 @@
+name: Release
+
+# Push a tag such as v1.0.1 to build potomac-mfa.zip and publish a GitHub release.
+# Sites running the plugin offer the update on their Plugins screen.
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: sodium
+          coverage: none
+      - run: composer install --no-interaction --no-progress
+      - run: vendor/bin/phpunit
+      - name: Check tag matches plugin version
+        run: |
+          TAG="${GITHUB_REF_NAME#v}"
+          HEADER=$(grep -m1 -E '^\s*\*\s*Version:' potomac-mfa.php | awk '{print $NF}')
+          if [ "$TAG" != "$HEADER" ]; then echo "Tag $TAG does not match plugin Version $HEADER"; exit 1; fi
+      - name: Build zip
+        run: bin/build-zip.sh
+      - name: Release notes from CHANGELOG.md
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+          awk -v v="$VERSION" '
+            $0 ~ "^## \\[?"v"\\]?" {f=1; next}
+            f && /^## / {exit}
+            f {print}
+          ' CHANGELOG.md > notes.md
+          printf '\nRequires at least: 6.4\nRequires PHP: 8.1\nTested up to: %s\n' "$(grep -m1 '^Tested up to:' readme.txt | awk '{print $NF}')" >> notes.md
+          cat notes.md
+      - name: Publish release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          PRERELEASE=""
+          case "$GITHUB_REF_NAME" in *-*) PRERELEASE="--prerelease" ;; esac
+          gh release create "$GITHUB_REF_NAME" dist/potomac-mfa.zip \
+            --title "Potomac MFA ${GITHUB_REF_NAME#v}" --notes-file notes.md $PRERELEASE

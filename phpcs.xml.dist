@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<ruleset name="Potomac MFA">
+	<description>WordPress coding standards for Potomac MFA.</description>
+	<file>potomac-mfa.php</file>
+	<file>uninstall.php</file>
+	<file>src</file>
+	<arg name="extensions" value="php"/>
+	<arg value="sp"/>
+	<config name="testVersion" value="8.1-"/>
+	<config name="minimum_wp_version" value="6.4"/>
+	<rule ref="WordPress-Extra">
+		<exclude name="WordPress.Files.FileName"/>
+		<exclude name="Universal.Arrays.DisallowShortArraySyntax"/>
+		<exclude name="Generic.Commenting.DocComment.MissingShort"/>
+		<exclude name="Squiz.Commenting.FunctionComment.Missing"/>
+		<exclude name="Squiz.Commenting.VariableComment.Missing"/>
+		<exclude name="Squiz.Commenting.FunctionComment.MissingParamTag"/>
+		<exclude name="Universal.Operators.DisallowShortTernary"/>
+	</rule>
+	<rule ref="WordPress.WP.I18n">
+		<properties>
+			<property name="text_domain" type="array">
+				<element value="potomac-mfa"/>
+			</property>
+		</properties>
+	</rule>
+</ruleset>

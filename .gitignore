@@ -1,0 +1,16 @@
+/vendor/
+/build/
+/dist/
+*.zip
+.DS_Store
+.phpunit.result.cache
+.phpunit.cache/
+.idea/
+.vscode/
+
+# Never commit site configuration or credentials.
+*.local.json
+*-with-secrets.json
+potomac-mfa-*.json
+/config/
+.env

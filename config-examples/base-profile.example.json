@@ -1,0 +1,33 @@
+{
+    "potomac_mfa_config": 1,
+    "settings": {
+        "gateway": {
+            "provider": "twilio",
+            "twilio": {
+                "account_sid": "ACxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                "api_key_sid": "SKxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                "api_key_secret": "",
+                "verify_service_sid": "VAxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+            }
+        },
+        "methods": {
+            "enabled": ["totp", "sms", "email"],
+            "default_country_code": "1"
+        },
+        "enforcement": {
+            "required_roles": ["administrator", "editor"],
+            "grace_mode": "either",
+            "grace_logins": 3,
+            "grace_days": 7
+        },
+        "trusted_devices": {
+            "enabled": true,
+            "days": 30
+        },
+        "security": {
+            "application_passwords": "disabled",
+            "xmlrpc": "block_mfa_users",
+            "ip_source": "remote_addr"
+        }
+    }
+}
