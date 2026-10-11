@@ -28,8 +28,9 @@ Enter the Account SID (`AC…`), API key SID, API key secret and Verify Service 
 
 SMS pumping attacks send codes to premium-rate numbers to generate revenue for the attacker. Potomac MFA only sends a code after the correct password has been entered, which limits exposure. The following Twilio settings add further protection:
 
-- **Fraud Guard:** navigate to **Verify → Fraud Guard** and confirm protection is enabled (the default is *Standard*).
-- **Geo permissions:** navigate to **Verify → Settings → Geo permissions** and allow only the countries where users are located, e.g., the United States and Canada.
+- **Fraud Guard:** open the Verify Service, select the **SMS & RCS** tab, and confirm **Enable Fraud Guard** is checked (Standard protection is appropriate).
+- **Landline validation:** on the same tab, set **Landline validation** to On, so SMS codes to landline numbers fail immediately rather than incurring a charge.
+- **Geo permissions:** navigate to **Verify → Settings → Geo permissions**. All countries are enabled by default. Disable SMS and voice traffic for every country where users are not located, e.g., allow only the United States and Canada.
 - **Usage triggers:** under **Monitor → Usage triggers**, add an alert for Verify spend above a monthly threshold.
 
 ### WhatsApp
@@ -38,10 +39,10 @@ Meta requires WhatsApp verification messages to be sent from the business's own 
 
 1. Navigate to **Messaging → Senders → WhatsApp senders** and complete self sign-up to create a WhatsApp Business Account (WABA) and register a phone number. A number that is not used for marketing messages is recommended.
 2. Create a Messaging Service (**Messaging → Services**) and add the WhatsApp sender to it.
-3. Open the Verify Service, select the **WhatsApp** tab, and select the Messaging Service (`MG…`).
+3. Open the Verify Service, select the **WhatsApp** tab, and select the Messaging Service (`MG…`) under **Select your WhatsApp Messaging service**.
 4. In Potomac MFA, enable **WhatsApp** under **Methods**, then send a test code from the **Connection** tab.
 
-Until these steps are complete, leave WhatsApp disabled. Twilio returns error 63008 when no Messaging Service is configured.
+Until these steps are complete, leave WhatsApp disabled in Potomac MFA. Twilio returns error 63008 when no Messaging Service is configured.
 
 ### Cost reference (US, October 2026)
 
